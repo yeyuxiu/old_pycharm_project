@@ -1,0 +1,46 @@
+1. scrapy-redis 用法 
+spider 中的类 跟 redis_key
+settings 中 加入 
+
+SCHEDULER = "scrapy_redis.scheduler.Scheduler"
+DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+
+ITEM_PIPELINES = {
+    'scrapy_redis.pipelines.RedisPipeline': 300,
+
+}
+
+# 爬虫退出时，url队列不清空
+SCHEDULER_PERSIST = True
+
+
+# Redis 配置
+REDIS_HOST = "localhost"
+REDIS_PORT = '6379'
+REDIS_PARAMS = {}
+REDIS_ENCODING = "utf-8"
+
+redis 中 lpush spider_name:start_urls url
+
+
+2. RandomUA
+在 SpiderMiddler 中设置 
+
+from fake_useragent import UserAgent
+
+class RandomUserAgentMiddleware(object):
+    def __init__(self, crawler):
+        super(RandomUserAgentMiddleware, self).__init__()
+        self.ua = UserAgent(verify_ssl=False)
+        self.ua_type = crawler.settings.get("UA_TYPE","random")
+    @classmethod
+    def from_crawler(cls, cralwer):
+        return cls(cralwer)
+
+    def process_request(self,request,spider):
+        def get_ua():
+            return getattr(self.ua, self.ua_type)
+        request.headers.setdefault("User-Agent", get_ua())
+
+2. 启动命令不是 scrapy crawl spider
+              scrapy runspider filename.py

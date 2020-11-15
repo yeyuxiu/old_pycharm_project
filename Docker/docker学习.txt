@@ -1,0 +1,99 @@
+docker中的概念
+	1. dockerfile  ( image的源代码 ) [ 源代码:将人类可读的计算机语言指令交给计算机执行的代码 ]
+ 	2. image 镜像 ( 可执行程序 )
+	3. container 容器 ( 运行起来的进程 )
+	4. docker ( 编译器 )
+
+# 如何使用 docker ( #docker build #docker run #docker pull  ) 通常只用到前两个命令就能创建doker并且运行了
+docker 命令作用:
+	1. docker build 创建 image ( 源码docker deamon 到 image )
+	2. docker run   有了image 运行 image ( image 到 docker container )
+	3. docker pull 从Docker Hun  中下载image 然后 运行
+
+docker中的环境创建到执行过程 : 在 dockerfile 中指定需要哪些程序，什么配置，把dockerfile 交给 docker 进行编译( docker build 命令 )
+生成的可执行程序 image ( docker run 命令 可以执行这个image ) image 运行起来后就是 docker container
+
+
+docker 工作流程中的几个概念:
+	1. docker使用了常见的CS架构 ( client-server模式 )
+	2. docker client 负责处理用户输入的各种命令( docker build 、docker run )
+	3. docker deamon 真正工作的 server
+	4. docker client 、 coker demon 可以运行在同一台机器上
+
+docker 工作流程 :
+	1. 写完 dockerfile 输入 #docker build dockerfile就会交给docker"编译"
+	2. client 接收到 #docker build 命令后 传递给 docker daemon ( server ) docker daemon根据dockerfile创建处 "可执行程序 image"
+	3. 有了 image 后 使用 #docker run 命令 docker deamon接收到命令后找到具体的 image 然后加载到内存开始执行
+	4. image 执行完后就是 container
+	----------
+	docker pull 运行流程
+	client 发送命令 传递给 docker deamon  docker deamon接收到命令后 传递给 docker registry 发送image下载请求
+
+docker 底层实现:
+	1. docker 基于 Linux 内核提供了几项功能
+	2. NameSpace 隔离资源
+	3. Control groups 控制容器中进程对系统资源的消耗 ( 内存上限 cpu上运行 )
+
+镜像，作为一个特殊的文件系统
+
+docker 的不同环境中的不同命令
+    1. 辅助命令
+        docker version
+        docker info
+        docker --help
+    2. Images 镜像命令
+        2.1 docker images - 列出本地所有镜像
+            -a 包含中间映像层
+            -q 只显示镜像id
+        2.2 搜索镜像 docker search [options] 镜像名
+           -s 指定值 列出收藏数不少于指定值的镜像
+           --no-trunc 显示完整的镜像信息
+    3.
+学习 docker Scrapyweb 知识 并且把爬虫部署到服务器上爬行
+1 先在本机上测试 是否能爬取 ( 爬完 ) 检查数据是否正确
+2. 先学如何部署 后部署 doker背景 Scrapyweb背景 命令等
+
+
+Docker 学习
+
+build:构建,就是构建镜像.
+
+ship:运输,运输镜像,从仓库和主机运输.
+
+run:运行的镜像就是一个容器.
+
+build,ship,run和镜像,仓库,容器是一一对应的.
+
+5.1 docker基本命令
+1.docker pull [options] NAME[:TAG]
+
+通过此命令可以docker远程仓库拉取镜像到本地.
+
+name是拉取镜像的名称,:TAG表示是可选的,如果不选表明时latest,如果选择表明是指定版本的.
+
+options是拉去的一些参数.
+
+当不加请求地址的时候回去docker的官网拉取镜像.
+
+2.docker images [options] [REPOSITORY[:TAG]]
+
+options是选项,后面是指定镜像的名称.这个用的不多,可能当本地镜像非常多的时候要指定查看某一个镜像.
+
+IMAGE ID 其实是一个64位的字符串,它可以唯一标识我们的镜像,这里只显示了16位,后面的被截掉了.
+
+3. docker run [options] IMAGE[:TAG] [COMMAND] [ARG..]
+
+IMAGE是镜像的名字
+
+COMMAND是运行起来的时候要执行什么命令.
+
+ARG表示这条命令运行需要的参数.
+
+
+cd /scrapy_app/
+cd scrapy_app_6818
+将文件上传到自己端口的目录下 scrapy_app_6818
+然后进入docker容器 docker exec -it scrapyd_yyx_6818 /bin/bash
+到这里就可以 pip intall 包名
+
+

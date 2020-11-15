@@ -1,0 +1,9 @@
+1. crawl 通用爬虫
+2. 在middlewares中设置 随机 ua ip
+3. 不同spider设置不同的setting
+4. 文件启动scrapy 而不是 cmd
+5. 多爬虫在同一个文件spider中
+6. ItemLoader（） LinkExtractor（）用法
+7. 设置爬虫访问间隔和效率
+8. settings设置爬取时显示的配置内容
+9. Telnet
